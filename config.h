@@ -117,7 +117,7 @@ ResourcePref resources[] = {
 static Key keys[] = {
 	/* modifier                     key        function        argument */
 	{ MODKEY,                       XK_backslash, spawn,       {.v = dmenucmd } },
-	{ MODKEY|ShiftMask,             XK_slash,  spawn,          {.v = termcmd } },
+	{ MODKEY,                       XK_slash,  spawn,          {.v = termcmd } },
 	{ MODKEY,                       XK_e,      spawn,          {.v = editcmd } },
 	{ MODKEY,                       XK_w,      spawn,          {.v = browscmd } },
 	{ MODKEY,                       XK_b,      togglebar,      {0} },
