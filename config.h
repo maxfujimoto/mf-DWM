@@ -1,7 +1,7 @@
 /* See LICENSE file for copyright and license details. */
 
 /* appearance */
-static unsigned int borderpx        = 1;        /* border pixel of windows */
+static unsigned int borderpx        = 2;        /* border pixel of windows */
 static unsigned int snap            = 32;       /* snap pixel */
 static const unsigned int gappih    = 20;       /* horiz inner gap between windows */
 static const unsigned int gappiv    = 10;       /* vert inner gap between windows */
@@ -26,10 +26,10 @@ static char *colors[][3] = {
        [SchemeNorm] = { normfgcolor, normbgcolor, normbordercolor },
        [SchemeSel]  = { selfgcolor,  selbgcolor,  selbordercolor  },
        [SchemeStatus]  = { normfgcolor, normbgcolor,  "#000000"  }, // Statusbar right {text,background,not used but cannot be empty}
-	[SchemeTagsSel]  = { selfgcolor, selbordercolor,  "#000000"  }, // Tagbar left selected {text,background,not used but cannot be empty}
-	[SchemeTagsNorm]  = { normfgcolor, normbgcolor,  "#000000"  }, // Tagbar left unselected {text,background,not used but cannot be empty}
-	[SchemeInfoSel]  = { selfgcolor, selbordercolor,  "#000000"  }, // infobar middle  selected {text,background,not used but cannot be empty}
-	[SchemeInfoNorm]  = { normfgcolor, normbgcolor,  "#000000"  }, // infobar middle  unselected {text,background,not used but cannot be empty}
+       [SchemeTagsSel]  = { selfgcolor, selbordercolor,  "#000000"  }, // Tagbar left selected {text,background,not used but cannot be empty}
+       [SchemeTagsNorm]  = { normfgcolor, normbgcolor,  "#000000"  }, // Tagbar left unselected {text,background,not used but cannot be empty}
+       [SchemeInfoSel]  = { selfgcolor, selbarcolor,  "#000000"  }, // infobar middle  selected {text,background,not used but cannot be empty}
+       [SchemeInfoNorm]  = { normfgcolor, normbgcolor,  "#000000"  }, // infobar middle  unselected {text,background,not used but cannot be empty}
 };
 
 /* tagging */
@@ -99,17 +99,19 @@ ResourcePref resources[] = {
 		{ "dmenufont",          STRING,  &dmenufont },
 		{ "normbgcolor",        STRING,  &normbgcolor },
 		{ "normbordercolor",    STRING,  &normbordercolor },
+		{ "normbarcolor",       STRING,  &normbarcolor },
 		{ "normfgcolor",        STRING,  &normfgcolor },
 		{ "selbgcolor",         STRING,  &selbgcolor },
 		{ "selbordercolor",     STRING,  &selbordercolor },
 		{ "selfgcolor",         STRING,  &selfgcolor },
+		{ "selbarcolor",        STRING,  &selbarcolor },
 		{ "borderpx",          	INTEGER, &borderpx },
-		{ "snap",          		INTEGER, &snap },
+		{ "snap",          	INTEGER, &snap },
 		{ "showbar",          	INTEGER, &showbar },
 		{ "topbar",          	INTEGER, &topbar },
 		{ "nmaster",          	INTEGER, &nmaster },
 		{ "resizehints",       	INTEGER, &resizehints },
-		{ "mfact",      	 	FLOAT,   &mfact },
+		{ "mfact",      	FLOAT,   &mfact },
 };
 
 #include "selfrestart.c"
@@ -121,10 +123,10 @@ static Key keys[] = {
 	{ MODKEY,                       XK_e,      spawn,          {.v = editcmd } },
 	{ MODKEY,                       XK_w,      spawn,          {.v = browscmd } },
 	{ MODKEY,                       XK_b,      togglebar,      {0} },
-	{ MODKEY|ShiftMask,             XK_j,      rotatestack,    {.i = +1 } },
-	{ MODKEY|ShiftMask,             XK_k,      rotatestack,    {.i = -1 } },
-	{ MODKEY,                       XK_j,      focusstack,     {.i = +1 } },
-	{ MODKEY,                       XK_k,      focusstack,     {.i = -1 } },
+	{ MODKEY|ShiftMask,             XK_n,      rotatestack,    {.i = +1 } },
+	{ MODKEY|ShiftMask,             XK_p,      rotatestack,    {.i = -1 } },
+	{ MODKEY,                       XK_n,      focusstack,     {.i = +1 } },
+	{ MODKEY,                       XK_p,      focusstack,     {.i = -1 } },
 	{ MODKEY|ShiftMask,             XK_j,      inplacerotate,  {.i = +1} },
 	{ MODKEY|ShiftMask,             XK_k,      inplacerotate,  {.i = -1} },
 	{ MODKEY|ShiftMask,             XK_h,      inplacerotate,  {.i = +2} },
