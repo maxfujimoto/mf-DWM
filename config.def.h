@@ -1,7 +1,7 @@
 /* See LICENSE file for copyright and license details. */
 
 /* appearance */
-static unsigned int borderpx        = 1;        /* border pixel of windows */
+static unsigned int borderpx        = 2;        /* border pixel of windows */
 static unsigned int snap            = 32;       /* snap pixel */
 static const unsigned int gappih    = 20;       /* horiz inner gap between windows */
 static const unsigned int gappiv    = 10;       /* vert inner gap between windows */
@@ -18,18 +18,20 @@ static const char *fonts[]          = { font };
 static char normbgcolor[]           = "#222222";
 static char normbordercolor[]       = "#444444";
 static char normfgcolor[]           = "#bbbbbb";
+static char normbarcolor[]          = "#222222";
 static char selfgcolor[]            = "#eeeeee";
 static char selbordercolor[]        = "#005577";
 static char selbgcolor[]            = "#005577";
+static char selbarcolor[]           = "#005577";
 static char *colors[][3] = {
        /*               fg           bg           border   */
        [SchemeNorm] = { normfgcolor, normbgcolor, normbordercolor },
        [SchemeSel]  = { selfgcolor,  selbgcolor,  selbordercolor  },
        [SchemeStatus]  = { normfgcolor, normbgcolor,  "#000000"  }, // Statusbar right {text,background,not used but cannot be empty}
-	[SchemeTagsSel]  = { selfgcolor, selbordercolor,  "#000000"  }, // Tagbar left selected {text,background,not used but cannot be empty}
-	[SchemeTagsNorm]  = { normfgcolor, normbgcolor,  "#000000"  }, // Tagbar left unselected {text,background,not used but cannot be empty}
-	[SchemeInfoSel]  = { selfgcolor, selbordercolor,  "#000000"  }, // infobar middle  selected {text,background,not used but cannot be empty}
-	[SchemeInfoNorm]  = { normfgcolor, normbgcolor,  "#000000"  }, // infobar middle  unselected {text,background,not used but cannot be empty}
+       [SchemeTagsSel]  = { selbordercolor, selbarcolor, "#000000"  }, // Tagbar left selected {text,background,not used but cannot be empty}
+       [SchemeTagsNorm]  = { normfgcolor, normbgcolor,  "#000000"  }, // Tagbar left unselected {text,background,not used but cannot be empty}
+       [SchemeInfoSel]  = { selfgcolor, selbarcolor,  "#000000"  }, // infobar middle  selected {text,background,not used but cannot be empty}
+       [SchemeInfoNorm]  = { normfgcolor, normbgcolor,  "#000000"  }, // infobar middle  unselected {text,background,not used but cannot be empty}
 };
 
 /* tagging */
@@ -88,6 +90,8 @@ static const Layout layouts[] = {
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
 static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", normbgcolor, "-nf", normfgcolor, "-sb", selbordercolor, "-sf", selfgcolor, NULL };
 static const char *termcmd[]  = { "st", NULL };
+static const char *editcmd[]  = { "emacs", NULL };
+static const char *browscmd[]  = { "firefox", NULL };
 
 /*
  * Xresources preferences to load at startup
@@ -97,30 +101,34 @@ ResourcePref resources[] = {
 		{ "dmenufont",          STRING,  &dmenufont },
 		{ "normbgcolor",        STRING,  &normbgcolor },
 		{ "normbordercolor",    STRING,  &normbordercolor },
+		{ "normbarcolor",       STRING,  &normbarcolor },
 		{ "normfgcolor",        STRING,  &normfgcolor },
 		{ "selbgcolor",         STRING,  &selbgcolor },
 		{ "selbordercolor",     STRING,  &selbordercolor },
 		{ "selfgcolor",         STRING,  &selfgcolor },
+		{ "selbarcolor",        STRING,  &selbarcolor },
 		{ "borderpx",          	INTEGER, &borderpx },
-		{ "snap",          		INTEGER, &snap },
+		{ "snap",          	INTEGER, &snap },
 		{ "showbar",          	INTEGER, &showbar },
 		{ "topbar",          	INTEGER, &topbar },
 		{ "nmaster",          	INTEGER, &nmaster },
 		{ "resizehints",       	INTEGER, &resizehints },
-		{ "mfact",      	 	FLOAT,   &mfact },
+		{ "mfact",      	FLOAT,   &mfact },
 };
 
 #include "selfrestart.c"
 
 static Key keys[] = {
 	/* modifier                     key        function        argument */
-	{ MODKEY,                       XK_p,      spawn,          {.v = dmenucmd } },
-	{ MODKEY|ShiftMask,             XK_Return, spawn,          {.v = termcmd } },
+	{ MODKEY,                       XK_backslash, spawn,       {.v = dmenucmd } },
+	{ MODKEY,                       XK_slash,  spawn,          {.v = termcmd } },
+	{ MODKEY,                       XK_e,      spawn,          {.v = editcmd } },
+	{ MODKEY,                       XK_w,      spawn,          {.v = browscmd } },
 	{ MODKEY,                       XK_b,      togglebar,      {0} },
-	{ MODKEY|ShiftMask,             XK_j,      rotatestack,    {.i = +1 } },
-	{ MODKEY|ShiftMask,             XK_k,      rotatestack,    {.i = -1 } },
-	{ MODKEY,                       XK_j,      focusstack,     {.i = +1 } },
-	{ MODKEY,                       XK_k,      focusstack,     {.i = -1 } },
+	{ MODKEY|ShiftMask,             XK_n,      rotatestack,    {.i = +1 } },
+	{ MODKEY|ShiftMask,             XK_p,      rotatestack,    {.i = -1 } },
+	{ MODKEY,                       XK_n,      focusstack,     {.i = +1 } },
+	{ MODKEY,                       XK_p,      focusstack,     {.i = -1 } },
 	{ MODKEY|ShiftMask,             XK_j,      inplacerotate,  {.i = +1} },
 	{ MODKEY|ShiftMask,             XK_k,      inplacerotate,  {.i = -1} },
 	{ MODKEY|ShiftMask,             XK_h,      inplacerotate,  {.i = +2} },
@@ -147,7 +155,7 @@ static Key keys[] = {
 	{ MODKEY|Mod4Mask,              XK_0,      togglegaps,     {0} },
 	{ MODKEY|Mod4Mask|ShiftMask,    XK_0,      defaultgaps,    {0} },
 	{ MODKEY,                       XK_Tab,    view,           {0} },
-	{ MODKEY|ShiftMask,             XK_c,      killclient,     {0} },
+	{ MODKEY|ShiftMask,             XK_q,      killclient,     {0} },
 	{ MODKEY,                       XK_t,      setlayout,      {.v = &layouts[0]} },
 	{ MODKEY,                       XK_f,      setlayout,      {.v = &layouts[1]} },
 	{ MODKEY,                       XK_m,      setlayout,      {.v = &layouts[2]} },
@@ -169,7 +177,7 @@ static Key keys[] = {
 	TAGKEYS(                        XK_8,                      7)
 	TAGKEYS(                        XK_9,                      8)
         { MODKEY|ShiftMask,             XK_r,      self_restart,   {0} },
-	{ MODKEY|ShiftMask,             XK_q,      quit,           {0} },
+	{ MODKEY|ShiftMask,             XK_Escape, quit,           {0} },
 };
 
 /* button definitions */
