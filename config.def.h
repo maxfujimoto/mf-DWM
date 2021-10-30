@@ -1,3 +1,4 @@
+
 /* See LICENSE file for copyright and license details. */
 
 /* appearance */
@@ -51,7 +52,7 @@ static const Rule rules[] = {
 /* layout(s) */
 static float mfact     = 0.55; /* factor of master area size [0.05..0.95] */
 static int nmaster     = 1;    /* number of clients in master area */
-static int resizehints = 1;    /* 1 means respect size hints in tiled resizals */
+static int resizehints = 0;    /* 1 means respect size hints in tiled resizals */
 static const int lockfullscreen = 1; /* 1 will force focus on the fullscreen window */
 
 #define FORCE_VSPLIT 1  /* nrowgrid layout: force two clients to always split vertically */
@@ -93,6 +94,10 @@ static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont,
 static const char *termcmd[]  = { "st", NULL };
 static const char *editcmd[]  = { "emacs", NULL };
 static const char *browscmd[]  = { "firefox", NULL };
+static const char *mustreamcmd[] = { "spotify", NULL };
+static const char *mediacmd[] = { "vlc", NULL };
+static const char *torcmd[] = { "torbrowser-launcher", NULL };
+static const char *partsimcmd[] = { "qucs-s", NULL };
 
 /*
  * Xresources preferences to load at startup
@@ -118,6 +123,7 @@ ResourcePref resources[] = {
 		{ "mfact",      	FLOAT,   &mfact },
 };
 
+#include <X11/XF86keysym.h>
 #include "selfrestart.c"
 
 static Key keys[] = {
@@ -126,6 +132,10 @@ static Key keys[] = {
 	{ MODKEY,                       XK_slash,  spawn,          {.v = termcmd } },
 	{ MODKEY,                       XK_e,      spawn,          {.v = editcmd } },
 	{ MODKEY,                       XK_w,      spawn,          {.v = browscmd } },
+	{ MODKEY,                       XK_s,      spawn,          {.v = mustreamcmd } },
+	{ MODKEY,                       XK_v,      spawn,          {.v = mediacmd } },
+	{ MODKEY|ShiftMask,             XK_w,      spawn,          {.v = torcmd } },
+	{ MODKEY,                       XK_q,      spawn,          {.v = partsimcmd } },
 	{ MODKEY,                       XK_b,      togglebar,      {0} },
 	{ MODKEY|ShiftMask,             XK_n,      rotatestack,    {.i = +1 } },
 	{ MODKEY|ShiftMask,             XK_p,      rotatestack,    {.i = -1 } },
@@ -160,7 +170,12 @@ static Key keys[] = {
 	{ MODKEY|ShiftMask,             XK_q,      killclient,     {0} },
 	{ MODKEY,                       XK_t,      setlayout,      {.v = &layouts[0]} },
 	{ MODKEY,                       XK_f,      setlayout,      {.v = &layouts[1]} },
-	{ MODKEY,                       XK_m,      setlayout,      {.v = &layouts[2]} },
+	{ MODKEY|ShiftMask,             XK_g,      setlayout,      {.v = &layouts[2]} },
+	{ MODKEY,                       XK_g,      setlayout,      {.v = &layouts[3]} },
+	{ MODKEY|ShiftMask,             XK_t,      setlayout,      {.v = &layouts[4]} },
+	{ MODKEY|ShiftMask,             XK_y,      setlayout,      {.v = &layouts[5]} },
+	{ MODKEY,                       XK_y,      setlayout,      {.v = &layouts[6]} },
+	{ MODKEY|ShiftMask,             XK_f,      setlayout,      {.v = &layouts[7]} },
 	{ MODKEY,                       XK_space,  setlayout,      {0} },
 	{ MODKEY|ShiftMask,             XK_space,  togglefloating, {0} },
 	{ MODKEY,                       XK_0,      view,           {.ui = ~0 } },
@@ -180,6 +195,12 @@ static Key keys[] = {
 	TAGKEYS(                        XK_9,                      8)
         { MODKEY|ShiftMask,             XK_r,      self_restart,   {0} },
 	{ MODKEY|ShiftMask,             XK_Escape, quit,           {0} },
+	/* System control keys                                          */
+        { 0,                            XF86MonBrightnessUp,        spawn,      SHCMD("backlightinc inc") },
+	{ 0,                            XF86MonBrightnessDown,      spawn,      SHCMD("backlighting dec") },
+	{ 0,                            XF86AudioRaiseVolume,       spawn,      SHCMD("volume up") },
+	{ 0,                            XF86AudioMute,              spawn,      SHCMD("volume down") },
+	{ 0,                            XF86AudioMicMute,           spawn,      SHCMD("volume toggle") },
 };
 
 /* button definitions */
