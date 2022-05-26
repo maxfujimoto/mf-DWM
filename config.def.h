@@ -1,4 +1,3 @@
-
 /* See LICENSE file for copyright and license details. */
 
 /* appearance */
@@ -8,11 +7,11 @@ static const unsigned int gappih    = 20;       /* horiz inner gap between windo
 static const unsigned int gappiv    = 10;       /* vert inner gap between windows */
 static const unsigned int gappoh    = 10;       /* horiz outer gap between windows and screen edge */
 static const unsigned int gappov    = 30;       /* vert outer gap between windows and screen edge */
-static       int smartgaps          = 0;        /* 1 means no outer gap when there is only one window */
+static int smartgaps                = 0;        /* 1 means no outer gap when there is only one window */
 static int showbar                  = 1;        /* 0 means no bar */
 static int topbar                   = 1;        /* 0 means bottom bar */
-static const int vertpad            = 0;       /* vertical padding of bar */
-static const int sidepad            = 0;       /* horizontal padding of bar */
+static const int vertpad            = 0;        /* vertical padding of bar */
+static const int sidepad            = 0;        /* horizontal padding of bar */
 static char font[]                  = "monospace:size=10";
 static char dmenufont[]             = "monospace:size=10";
 static const char *fonts[]          = { font };
@@ -93,11 +92,15 @@ static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() 
 static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", normbgcolor, "-nf", normfgcolor, "-sb", selbordercolor, "-sf", selfgcolor, NULL };
 static const char *termcmd[]  = { "st", NULL };
 static const char *editcmd[]  = { "emacs", NULL };
+static const char *editfullcmd[]  = { "emacs", "-fs", NULL };
 static const char *browscmd[]  = { "firefox", NULL };
 static const char *mustreamcmd[] = { "spotify", NULL };
 static const char *mediacmd[] = { "vlc", NULL };
 static const char *torcmd[] = { "torbrowser-launcher", NULL };
 static const char *partsimcmd[] = { "qucs-s", NULL };
+static const char *monitorcmd[] = { "monswitch", NULL };
+static const char *internetcmd[] = { "nm-connection-editor", NULL };
+static const char *powercmd[] = { "powerprompt", NULL };
 
 /*
  * Xresources preferences to load at startup
@@ -130,12 +133,16 @@ static Key keys[] = {
 	/* modifier                     key        function        argument */
 	{ MODKEY,                       XK_backslash, spawn,       {.v = dmenucmd } },
 	{ MODKEY,                       XK_slash,  spawn,          {.v = termcmd } },
-	{ MODKEY,                       XK_e,      spawn,          {.v = editcmd } },
+	{ MODKEY,                       XK_e,      spawn,          {.v = editfullcmd } },
+	{ MODKEY,                       XK_E,      spawn,          {.v = editcmd } },
 	{ MODKEY,                       XK_w,      spawn,          {.v = browscmd } },
 	{ MODKEY,                       XK_s,      spawn,          {.v = mustreamcmd } },
 	{ MODKEY,                       XK_v,      spawn,          {.v = mediacmd } },
 	{ MODKEY|ShiftMask,             XK_w,      spawn,          {.v = torcmd } },
 	{ MODKEY,                       XK_q,      spawn,          {.v = partsimcmd } },
+	{ MODKEY,                       XK_m,      spawn,          {.v = monitorcmd } },
+	{ MODKEY,                       XK_c,      spawn,          {.v = internetcmd } },
+	{ MODKEY|Mod4Mask|ShiftMask,    XK_grave,  spawn,          {.v = powercmd } },
 	{ MODKEY,                       XK_b,      togglebar,      {0} },
 	{ MODKEY|ShiftMask,             XK_n,      rotatestack,    {.i = +1 } },
 	{ MODKEY|ShiftMask,             XK_p,      rotatestack,    {.i = -1 } },
@@ -196,11 +203,11 @@ static Key keys[] = {
         { MODKEY|ShiftMask,             XK_r,      self_restart,   {0} },
 	{ MODKEY|ShiftMask,             XK_Escape, quit,           {0} },
 	/* System control keys                                          */
-        { 0,                            XF86MonBrightnessUp,        spawn,      SHCMD("backlightinc inc") },
-	{ 0,                            XF86MonBrightnessDown,      spawn,      SHCMD("backlighting dec") },
-	{ 0,                            XF86AudioRaiseVolume,       spawn,      SHCMD("volume up") },
-	{ 0,                            XF86AudioMute,              spawn,      SHCMD("volume down") },
-	{ 0,                            XF86AudioMicMute,           spawn,      SHCMD("volume toggle") },
+        { 0,                            XF86XK_MonBrightnessUp,        spawn,      SHCMD("backlightinc inc") },
+	{ 0,                            XF86XK_MonBrightnessDown,      spawn,      SHCMD("backlighting dec") },
+	{ 0,                            XF86XK_AudioRaiseVolume,       spawn,      SHCMD("volume up") },
+	{ 0,                            XF86XK_AudioMute,              spawn,      SHCMD("volume down") },
+	{ 0,                            XF86XK_AudioMicMute,           spawn,      SHCMD("volume toggle") },
 };
 
 /* button definitions */
