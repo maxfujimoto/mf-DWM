@@ -132,7 +132,7 @@ ResourcePref resources[] = {
 static Key keys[] = {
 	/* modifier                     key        function        argument */
 	{ MODKEY,                       XK_backslash, spawn,       {.v = dmenucmd } },
-	{ MODKEY,                       XK_slash,  spawn,          {.v = termcmd } },
+	{ MODKEY,                       XK_Return, spawn,          {.v = termcmd } },
 	{ MODKEY,                       XK_e,      spawn,          {.v = editfullcmd } },
 	{ MODKEY,                       XK_E,      spawn,          {.v = editcmd } },
 	{ MODKEY,                       XK_w,      spawn,          {.v = browscmd } },
@@ -156,7 +156,7 @@ static Key keys[] = {
 	{ MODKEY,                       XK_d,      incnmaster,     {.i = -1 } },
 	{ MODKEY,                       XK_h,      setmfact,       {.f = -0.05} },
 	{ MODKEY,                       XK_l,      setmfact,       {.f = +0.05} },
-	{ MODKEY,                       XK_Return, zoom,           {0} },
+	{ MODKEY,                       XK_slash,  zoom,           {0} },
 	{ MODKEY|Mod4Mask,              XK_u,      incrgaps,       {.i = +1 } },
 	{ MODKEY|Mod4Mask|ShiftMask,    XK_u,      incrgaps,       {.i = -1 } },
 	{ MODKEY|Mod4Mask,              XK_i,      incrigaps,      {.i = +1 } },
