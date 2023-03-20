@@ -1,0 +1,123 @@
+4c4,5
+< static const unsigned int borderpx  = 1;        /* border pixel of windows */
+---
+> #include <X11/X.h>
+> static const unsigned int borderpx  = 2;        /* border pixel of windows */
+6c7
+< static const unsigned int gappih    = 20;       /* horiz inner gap between windows */
+---
+> static const unsigned int gappih    = 10;       /* horiz inner gap between windows */
+8,9c9,10
+< static const unsigned int gappoh    = 10;       /* horiz outer gap between windows and screen edge */
+< static const unsigned int gappov    = 30;       /* vert outer gap between windows and screen edge */
+---
+> static const unsigned int gappoh    = 17;       /* horiz outer gap between windows and screen edge */
+> static const unsigned int gappov    = 17;       /* vert outer gap between windows and screen edge */
+18,19c19,20
+< static const char *fonts[]          = { "monospace:size=10" };
+< static const char dmenufont[]       = "monospace:size=10";
+---
+> static const char *fonts[]          = { "Cantarell:monospace:size=10" };
+> static const char dmenufont[]       = "Cantarell:monospace:size=10";
+45c46
+< static const float mfact     = 0.55; /* factor of master area size [0.05..0.95] */
+---
+> static const float mfact     = 0.5; /* factor of master area size [0.05..0.95] */
+47c48
+< static const int resizehints = 1;    /* 1 means respect size hints in tiled resizals */
+---
+> static const int resizehints = 0;    /* 1 means respect size hints in tiled resizals */
+73c74
+< #define MODKEY Mod1Mask
+---
+> #define MODKEY Mod4Mask
+86a88,98
+> static const char *editcmd[]  = { "emacs", NULL };
+> static const char *editdaemoncmd[]  = { "emacsclient", "-c", NULL };
+> static const char *browscmd[]  = { "firefox", NULL };
+> static const char *mustreamcmd[] = { "spotify", NULL };
+> static const char *mediacmd[] = { "vlc", NULL };
+> static const char *torcmd[] = { "torbrowser-launcher", NULL };
+> static const char *partsimcmd[] = { "qucs-s", NULL };
+> static const char *monitorcmd[] = { "monswitch", NULL };
+> static const char *concmd[] = { "nm-connection-editor", NULL };
+> static const char *exitsessioncmd[] = { "exitxorg", NULL };
+> static const char *powercmd[] = { "powerprompt", NULL };
+87a100
+> #include <X11/XF86keysym.h>
+88a102
+> 
+91,92c105,116
+< 	{ MODKEY,                       XK_p,      spawn,          {.v = dmenucmd } },
+< 	{ MODKEY|ShiftMask,             XK_Return, spawn,          {.v = termcmd } },
+---
+> 	{ MODKEY,                    XK_backslash, spawn,          {.v = dmenucmd } },
+> 	{ MODKEY,                       XK_Return, spawn,          {.v = termcmd } },
+> 	{ MODKEY,                       XK_x,      spawn,          {.v = editdaemoncmd } },
+> 	{ MODKEY|ShiftMask,             XK_x,      spawn,          {.v = editcmd } },
+> 	{ MODKEY,                       XK_c,      spawn,          {.v = browscmd } },
+> 	{ MODKEY|ShiftMask,             XK_c,      spawn,          {.v = torcmd } },
+> 	{ MODKEY,                       XK_v,      spawn,          {.v = mustreamcmd } },
+> 	{ MODKEY|ShiftMask,             XK_v,      spawn,          {.v = mediacmd } },
+> 	{ MODKEY,                       XK_q,      spawn,          {.v = partsimcmd } },
+> 	{ MODKEY,                       XK_m,      spawn,          {.v = monitorcmd } },
+> 	{ MODKEY,                       XK_slash,  spawn,          {.v = concmd } },
+> 	{ MODKEY,                   XK_BackSpace,  spawn,          {.v = powercmd } },
+96,99d119
+< 	{ MODKEY,                       XK_i,      incnmaster,     {.i = +1 } },
+< 	{ MODKEY,                       XK_d,      incnmaster,     {.i = -1 } },
+< 	{ MODKEY,                       XK_h,      setmfact,       {.f = -0.05} },
+< 	{ MODKEY,                       XK_l,      setmfact,       {.f = +0.05} },
+102,105c122,151
+< 	{ MODKEY,                       XK_Return, zoom,           {0} },
+< 	{ MODKEY,                       XK_Tab,    view,           {0} },
+< 	{ MODKEY|ShiftMask,             XK_c,      killclient,     {0} },
+< 	{ MODKEY,                       XK_t,      setlayout,      {.v = &layouts[0]} },
+---
+> 	{ MODKEY,                       XK_a,      incnmaster,     {.i = +1 } },
+> 	{ MODKEY,                       XK_e,      incnmaster,     {.i = -1 } },
+> 	{ MODKEY,                       XK_n,      setmfact,       {.f = -0.05} },
+> 	{ MODKEY,                       XK_p,      setmfact,       {.f = +0.05} },
+> 	{ MODKEY,                       XK_equal,  setcfact,       {.f = +0.25} },
+> 	{ MODKEY,                       XK_minus,  setcfact,       {.f = -0.25} },
+> 	{ MODKEY|ShiftMask,             XK_o,      setcfact,       {.f =  0.00} },
+> 	{ MODKEY,                       XK_Tab,    zoom,           {0} },
+> 	/* { MODKEY|ControlMask,           XK_u,      incrgaps,       {.i = +1 } }, */
+> 	/* { MODKEY|ControlMask|ShiftMask, XK_u,      incrgaps,       {.i = -1 } }, */
+> 	/* { MODKEY|ControlMask,           XK_i,      incrigaps,      {.i = +1 } }, */
+> 	/* { MODKEY|ControlMask|ShiftMask, XK_i,      incrigaps,      {.i = -1 } }, */
+> 	/* { MODKEY|ControlMask,           XK_o,      incrogaps,      {.i = +1 } }, */
+> 	/* { MODKEY|ControlMask|ShiftMask, XK_o,      incrogaps,      {.i = -1 } }, */
+> 	/* { MODKEY|ControlMask,           XK_6,      incrihgaps,     {.i = +1 } }, */
+> 	/* { MODKEY|ControlMask|ShiftMask, XK_6,      incrihgaps,     {.i = -1 } }, */
+> 	/* { MODKEY|ControlMask,           XK_7,      incrivgaps,     {.i = +1 } }, */
+> 	/* { MODKEY|ControlMask|ShiftMask, XK_7,      incrivgaps,     {.i = -1 } }, */
+> 	/* { MODKEY|ControlMask,           XK_8,      incrohgaps,     {.i = +1 } }, */
+> 	/* { MODKEY|ControlMask|ShiftMask, XK_8,      incrohgaps,     {.i = -1 } }, */
+> 	/* { MODKEY|ControlMask,           XK_9,      incrovgaps,     {.i = +1 } }, */
+> 	/* { MODKEY|ControlMask|ShiftMask, XK_9,      incrovgaps,     {.i = -1 } }, */
+> 	{ MODKEY|ControlMask,           XK_0,      togglegaps,     {0} },
+> 	{ MODKEY|ControlMask|ShiftMask, XK_0,      defaultgaps,    {0} },
+> 	{ MODKEY,                       XK_grave,  view,           {0} },
+> 	{ MODKEY|ShiftMask,             XK_q,      killclient,     {0} },
+> 	{ MODKEY,                       XK_s,      setlayout,      {.v = &layouts[0]} },
+> 	{ MODKEY|ShiftMask,             XK_s,      setlayout,      {.v = &layouts[4]} },
+> 	{ MODKEY,                       XK_d,      setlayout,      {.v = &layouts[5]} },
+> 	{ MODKEY|ShiftMask,             XK_d,      setlayout,      {.v = &layouts[6]} },
+107c153,155
+< 	{ MODKEY,                       XK_m,      setlayout,      {.v = &layouts[2]} },
+---
+> 	{ MODKEY|ShiftMask,             XK_f,      setlayout,      {.v = &layouts[11]} },
+> 	{ MODKEY,                       XK_g,      setlayout,      {.v = &layouts[8]} },
+> 	{ MODKEY|ShiftMask,             XK_g,      setlayout,      {.v = &layouts[10]} },
+125c173,180
+< 	{ MODKEY|ShiftMask,             XK_q,      quit,           {0} },
+---
+> 	{ MODKEY|ShiftMask,             XK_BackSpace, spawn,       {.v = exitsessioncmd } },
+> 	{ MODKEY|ShiftMask,             XK_Escape, quit,           {0} },
+> 	/* System control keys                                     */
+>         { 0,                            XF86XK_MonBrightnessUp,    spawn,      SHCMD("backlightinc inc") },
+> 	{ 0,                            XF86XK_MonBrightnessDown,  spawn,      SHCMD("backlighting dec") },
+> 	{ 0,                            XF86XK_AudioRaiseVolume,   spawn,      SHCMD("volume up") },
+> 	{ 0,                            XF86XK_AudioLowerVolume,   spawn,      SHCMD("volume down") },
+> 	{ 0,                            XF86XK_AudioMute,          spawn,      SHCMD("volume toggle") },
