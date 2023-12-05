@@ -1,0 +1,144 @@
+4c4,5
+< static const unsigned int borderpx  = 1;        /* border pixel of windows */
+---
+> #include <X11/X.h>
+> static const unsigned int borderpx  = 2;        /* border pixel of windows */
+6c7
+< static const unsigned int gappih    = 20;       /* horiz inner gap between windows */
+---
+> static const unsigned int gappih    = 10;       /* horiz inner gap between windows */
+8,9c9,10
+< static const unsigned int gappoh    = 10;       /* horiz outer gap between windows and screen edge */
+< static const unsigned int gappov    = 30;       /* vert outer gap between windows and screen edge */
+---
+> static const unsigned int gappoh    = 24;       /* horiz outer gap between windows and screen edge */
+> static const unsigned int gappov    = 24;       /* vert outer gap between windows and screen edge */
+11c12
+< static const unsigned int systraypinning = 0;   /* 0: sloppy systray follows selected monitor, >0: pin systray to monitor X */
+---
+> static const unsigned int systraypinning = 1;   /* 0: sloppy systray follows selected monitor, >0: pin systray to monitor X */
+18,19c19,20
+< static const char *fonts[]          = { "monospace:size=10" };
+< static const char dmenufont[]       = "monospace:size=10";
+---
+> static const char *fonts[]          = {"DejaVuSansM Nerd Font Mono:style=Regular:size=10" };
+> static const char dmenufont[]       = "Cantarell:style=Regular:size=10";
+24a26
+> static const char col_yellow[]        = "#fec900";
+28c30
+< 	[SchemeSel]  = { col_gray4, col_cyan,  col_cyan  },
+---
+> 	[SchemeSel]  = { col_gray4, col_cyan,  col_yellow  },
+48c50
+< static const float mfact     = 0.55; /* factor of master area size [0.05..0.95] */
+---
+> static const float mfact     = 0.5; /* factor of master area size [0.05..0.95] */
+50c52
+< static const int resizehints = 1;    /* 1 means respect size hints in tiled resizals */
+---
+> static const int resizehints = 0;    /* 1 means respect size hints in tiled resizals */
+76c78
+< #define MODKEY Mod1Mask
+---
+> #define MODKEY Mod4Mask
+88a91
+> static const char *dmenucmd2[] = { "dmenu_run", NULL}; 
+89a93,107
+> static const char *macrocmd[] = { "tempmacro", NULL };
+> static const char *redefmacrocmd[] = { "tempmacro", "-n", NULL };
+> static const char *editcmd[]  = { "emacs", NULL };
+> static const char *editclientcmd[]  = { "emacsclient", "-c", NULL };
+> static const char *browsgfxcmd[]  = { "prime-run", "firefox", NULL };
+> static const char *browslitecmd[]  = { "thorium-browser", NULL };
+> static const char *browscmd[]  = { "firefox", NULL };
+> static const char *mustreamcmd[] = { "spotify-launcher", NULL };
+> static const char *mediacmd[] = { "vlc", NULL };
+> static const char *torbcmd[] = { "torbrowser-launcher", NULL };
+> static const char *partsimcmd[] = { "qucs-s", NULL };
+> static const char *monitorcmd[] = { "monswitch", NULL };
+> static const char *concmd[] = { "nm-connection-editor", NULL };
+> static const char *exitsessioncmd[] = { "exitxorg", NULL };
+> static const char *powercmd[] = { "powerprompt", NULL };
+90a109
+> #include <X11/XF86keysym.h>
+91a111
+> 
+94,95c114,128
+< 	{ MODKEY,                       XK_p,      spawn,          {.v = dmenucmd } },
+< 	{ MODKEY|ShiftMask,             XK_Return, spawn,          {.v = termcmd } },
+---
+> 	{ MODKEY,                       XK_backslash, spawn,       {.v = dmenucmd } },
+> 	{ MODKEY,                       XK_Return, spawn,          {.v = termcmd } },
+> 	{ MODKEY,                       XK_x,      spawn,          {.v = editclientcmd } },
+> 	{ MODKEY|ShiftMask,             XK_x,      spawn,          {.v = editcmd } },
+> 	{ MODKEY,                       XK_c,      spawn,          {.v = browscmd } },
+> 	{ MODKEY|ShiftMask,             XK_c,      spawn,          {.v = browslitecmd } },
+> 	{ MODKEY|ControlMask,           XK_c,      spawn,          {.v = torbcmd  } },
+> 	{ MODKEY,                       XK_v,      spawn,          {.v = mustreamcmd } },
+> 	{ MODKEY|ShiftMask,             XK_v,      spawn,          {.v = mediacmd } },
+> 	{ MODKEY,                       XK_q,      spawn,          {.v = partsimcmd } },
+> 	{ MODKEY,                       XK_m,      spawn,          {.v = monitorcmd } },
+> 	{ MODKEY,                       XK_slash,  spawn,          {.v = concmd } },
+> 	{ MODKEY,                       XK_t,      spawn,          {.v = macrocmd } },
+> 	{ MODKEY|ShiftMask,             XK_t,      spawn,          {.v = redefmacrocmd } },
+> 	{ MODKEY,                       XK_BackSpace, spawn,       {.v = powercmd } },
+99,102d131
+< 	{ MODKEY,                       XK_i,      incnmaster,     {.i = +1 } },
+< 	{ MODKEY,                       XK_d,      incnmaster,     {.i = -1 } },
+< 	{ MODKEY,                       XK_h,      setmfact,       {.f = -0.05} },
+< 	{ MODKEY,                       XK_l,      setmfact,       {.f = +0.05} },
+105,108c134,163
+< 	{ MODKEY,                       XK_Return, zoom,           {0} },
+< 	{ MODKEY,                       XK_Tab,    view,           {0} },
+< 	{ MODKEY|ShiftMask,             XK_c,      killclient,     {0} },
+< 	{ MODKEY,                       XK_t,      setlayout,      {.v = &layouts[0]} },
+---
+> 	{ MODKEY,                       XK_a,      incnmaster,     {.i = +1 } },
+> 	{ MODKEY,                       XK_e,      incnmaster,     {.i = -1 } },
+> 	{ MODKEY,                       XK_n,      setmfact,       {.f = -0.05} },
+> 	{ MODKEY,                       XK_p,      setmfact,       {.f = +0.05} },
+> 	{ MODKEY,                       XK_equal,  setcfact,       {.f = +0.25} },
+> 	{ MODKEY,                       XK_minus,  setcfact,       {.f = -0.25} },
+> 	{ MODKEY|ShiftMask,             XK_o,      setcfact,       {.f =  0.00} },
+> 	{ MODKEY,                       XK_Tab,    zoom,           {0} },
+> 	/* { MODKEY|ControlMask,           XK_u,      incrgaps,       {.i = +1 } }, */
+> 	/* { MODKEY|ControlMask|ShiftMask, XK_u,      incrgaps,       {.i = -1 } }, */
+> 	/* { MODKEY|ControlMask,           XK_i,      incrigaps,      {.i = +1 } }, */
+> 	/* { MODKEY|ControlMask|ShiftMask, XK_i,      incrigaps,      {.i = -1 } }, */
+> 	/* { MODKEY|ControlMask,           XK_o,      incrogaps,      {.i = +1 } }, */
+> 	/* { MODKEY|ControlMask|ShiftMask, XK_o,      incrogaps,      {.i = -1 } }, */
+> 	/* { MODKEY|ControlMask,           XK_6,      incrihgaps,     {.i = +1 } }, */
+> 	/* { MODKEY|ControlMask|ShiftMask, XK_6,      incrihgaps,     {.i = -1 } }, */
+> 	/* { MODKEY|ControlMask,           XK_7,      incrivgaps,     {.i = +1 } }, */
+> 	/* { MODKEY|ControlMask|ShiftMask, XK_7,      incrivgaps,     {.i = -1 } }, */
+> 	/* { MODKEY|ControlMask,           XK_8,      incrohgaps,     {.i = +1 } }, */
+> 	/* { MODKEY|ControlMask|ShiftMask, XK_8,      incrohgaps,     {.i = -1 } }, */
+> 	/* { MODKEY|ControlMask,           XK_9,      incrovgaps,     {.i = +1 } }, */
+> 	/* { MODKEY|ControlMask|ShiftMask, XK_9,      incrovgaps,     {.i = -1 } }, */
+> 	{ MODKEY|ControlMask,           XK_0,      togglegaps,     {0} },
+> 	{ MODKEY|ControlMask|ShiftMask, XK_0,      defaultgaps,    {0} },
+> 	{ MODKEY,                       XK_grave,  view,           {0} },
+> 	{ MODKEY|ShiftMask,             XK_q,      killclient,     {0} },
+> 	{ MODKEY,                       XK_s,      setlayout,      {.v = &layouts[0]} },
+> 	{ MODKEY|ShiftMask,             XK_s,      setlayout,      {.v = &layouts[4]} },
+> 	{ MODKEY,                       XK_d,      setlayout,      {.v = &layouts[5]} },
+> 	{ MODKEY|ShiftMask,             XK_d,      setlayout,      {.v = &layouts[6]} },
+110c165,167
+< 	{ MODKEY,                       XK_m,      setlayout,      {.v = &layouts[2]} },
+---
+> 	{ MODKEY|ShiftMask,             XK_f,      setlayout,      {.v = &layouts[11]} },
+> 	{ MODKEY,                       XK_g,      setlayout,      {.v = &layouts[8]} },
+> 	{ MODKEY|ShiftMask,             XK_g,      setlayout,      {.v = &layouts[10]} },
+128c185,194
+< 	{ MODKEY|ShiftMask,             XK_q,      quit,           {0} },
+---
+> 	{ MODKEY|ShiftMask,             XK_BackSpace, spawn,       {.v = exitsessioncmd } },
+> 	{ MODKEY|ShiftMask,             XK_Escape, quit,           {0} },
+> 	/* System control keys                                     */
+>         { 0,                            XF86XK_MonBrightnessUp,    spawn,      SHCMD("backlightinc inc") },
+> 	{ 0,                            XF86XK_MonBrightnessDown,  spawn,      SHCMD("backlighting dec") },
+> 	{ 0,                            XF86XK_AudioRaiseVolume,   spawn,      SHCMD("volume up 1") },
+> 	{ 0,                            XF86XK_AudioLowerVolume,   spawn,      SHCMD("volume down 1")  },
+> 	{ 0,                            XF86XK_AudioMute,          spawn,      SHCMD("volume toggle") },
+> 	{ ShiftMask,                    XF86XK_AudioRaiseVolume,   spawn,      SHCMD("volume up") },
+> 	{ ShiftMask,                    XF86XK_AudioLowerVolume,   spawn,      SHCMD("volume down")  },
